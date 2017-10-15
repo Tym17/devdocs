@@ -2,115 +2,117 @@
 layout: default
 group:  migration
 subgroup: o_mapping
-title: Data Migration Tool Internal Specification
-menu_title: Data Migration Tool Internal Specification
+title: Data Migration Tool Technical Specification
+menu_title: Data Migration Tool Technical Specification
 menu_node: parent
-menu_order: 7
+menu_order: 8
+version: 2.0
 github_link: migration/migration-tool-internal-spec.md
 redirect_from: /guides/v1.0/migration/migration-tool-internal-spec.html
 ---
 
-  
-<h4>Contents</h4>
-
-See one of the following sections:
-
-*	<a href="#migrate-overview">Overview</a>
-	* <a href="#repositories">Repositories</a>
-	* <a href="#system-requirements">System requirements</a>
-*	<a href="#migrate-is">Internal structure</a>
-	* <a href="#directory-structure">Directory Structure</a>
-	* <a href="#entry-point">Entry Point</a>
-	* <a href="#configuration">Configuration</a>
-	* <a href="#step-internals">Step Internals</a>
-	* <a href="#running-modes">Running Modes</a>
-	* <a href="#data-sources">Data Sources</a>
-	* <a href="#logging">Logging</a>
-	* <a href="#extension-points">Extension Points</a>
-*	<a href="#automatic-tests">Automatic tests</a>
-
-<h2 id="migrate-overview">Overview</h2>
+## Overview {#migrate-overview}
 
 This section describes an implementation details of Data Migration Tool and how to extend its functionality.
 
-<h3 id="repositories">Repositories</h3>
+### Repositories {#repositories}
 
-Data Migration Tool repository <a href="https://github.com/magento/data-migration-tool-ce" target="_blank">migration-tool</a>
+Data Migration Tool repository <a href="https://github.com/magento/data-migration-tool" target="&#95;blank">migration-tool</a>
 
-<h3 id="system-requirements">System requirements</h3>
+### System requirements {#system-requirements}
 
-Same as for <a href="http://devdocs.magento.com/guides/v1.0/install-gde/system-requirements.html" target="_blank">Magento 2</a>
+Same as for <a href="http://devdocs.magento.com/guides/v1.0/install-gde/system-requirements.html" target="&#95;blank">Magento 2</a>
 
-<h2 id="migrate-is">Internal structure</h2>
+## Internal structure {#migrate-is}
 
-<h3 id="directory-structure">Directory structure</h3>
+### Directory structure {#directory-structure}
 
 The following diagram represents directory structure of Data Migration Tool:
 
 <pre>
 
-├ bin
-│ └ migrate                 -- entry point
-├ etc                       -- configurations of tool
-│ ├ ce-1.x.x                -- folder contains version specific set of config files
-│ │ ├ map.xml.dist
-│ │ ├ config.xml.dist
-│ │ ├ settings.xml.dist
-│ │ └ ...
-│ ├ config.xsd
-│ ├ map.xsd
-│ ├ magento_path.php
-│ └ ...
-├ src
-│ └ Migration
-│   ├ App
-│   │ └ Shell.php             -- shell application
-│   ├ Handler                 -- contains handlers for specific cases of processing data
-│   │ ├ Manager.php
-│   │ ├ HandlerInterface.php
-│   │ └ AbstractHandler.php
-│   ├ Resource                -- contains adapter for connection to data storage and classes to work with structured data
-│   │ ├ Adapter
-│   │ ├ Document              -- is a database table
-│   │ ├ Record
-│   │ ├ Structure
-│   │ ├ Source.php
-│   │ └ Destination.php
-│   ├ Logger                   -- classes for processing log information
-│   │ ├ ConsoleHandler.php
-│   │ ├ FileHandler.php
-│   │ ├ Logger.php
-│   │ ├ Manager.php
-│   │ ├ MessageFormatter.php
-│   │ └ MessageProcessor.php
-│   ├ Step
-│   │ ├ EAV
-│   │ ├ Map
-│   │ └ UrlRewrite
-│   ├ Config.php
-│   └ Migration.php    -- application
-├ tests
-│ ├ unit
-│ │ └ phpunit.xml.dist
-│ ├ static
-│ │ └ phpunit.xml.dist
-│ └ integration
-│   └ phpunit.xml.dist
-├ composer.json
-└ README.md
+├── etc                                    --- all configuration files
+│   ├── opensource-to-opensourc            --- configuration files for migration from {{site.data.var.ce}} 1 to {{site.data.var.ce}} 2
+│   │   ├── 1.9.1.1
+│   │   │   ├── config.xml.dist
+│   │   │   └── map.xml.dist
+│   │   ├── 1.9.2.0
+│   │   │   ├── config.xml.dist
+│   │   │   └── map.xml.dist
+│   │   ├── ........
+│   │   ├── class-map.xml.dist
+│   │   ├── deltalog.xml.dist
+│   │   └── settings.xml.dist
+│   │   ├── ........
+│   ├── opensource-to-commerce              --- configuration files for migration from {{site.data.var.ce}} 1 to {{site.data.var.ee}} 2
+│   ├── commerce-to-commerce                --- configuration files for migration from {{site.data.var.ee}} 1 to {{site.data.var.ee}} 2
+│   ├── class-map.xsd
+│   ├── config.xsd
+│   ├── map.xsd
+│   └── settings.xsd
+├── src
+│   └── Migration
+│       ├── App                             --- application framework
+│       ├── Console
+│       ├── Handler                         --- handlers are used by map files
+│       │   ├── AbstractHandler.php
+│       │   ├── AddPrefix.php
+│       │   ├── ConvertIp.php
+│       │   ├── ........
+│       ├── Logger
+│       ├── Reader
+│       ├── Mode
+│       │   ├── AbstractMode.php
+│       │   ├── Data.php
+│       │   ├── Delta.php
+│       │   └── Settings.php
+│       ├── ResourceModel                   --- contains {% glossarytooltip edb42858-1ff8-41f9-80a6-edf0d86d7e10 %}adapter{% endglossarytooltip %} for connection to data storage and classes to work with structured data
+│       │   ├── Adapter
+│       │   │   └── Mysql.php
+│       │   ├── AbstractCollection.php
+│       │   ├── AbstractResource.php
+│       │   ├── AdapterInterface.php
+│       │   ├── Destination.php
+│       │   ├── Document.php
+│       │   ├── Record.php
+│       │   ├── Source.php
+│       │   └── Structure.php
+│       ├── Config.php
+│       ├── {% glossarytooltip 53da11f1-d0b8-4a7e-b078-1e099462b409 %}Exception{% endglossarytooltip %}.php
+│       └── Step                            --- functionality for migrating specific data
+│           ├── Eav
+│           │   ├── Data.php
+│           │   ├── Helper.php
+│           │   ├── InitialData.php
+│           │   ├── Integrity.php
+│           │   └── Volume.php
+│           ├── Map
+│           │   ├── Data.php
+│           │   ├── Delta.php
+│           │   ├── Helper.php
+│           │   ├── Integrity.php
+│           │   └── Volume.php
+│           ├── UrlRewrite
+│           │   ├── Version11300to2000.php
+│           │   ├── Version11410to2000.php
+│           │   └── Version191to2000.php
+│           ├── ..........
+└── tests
+    ├── integration
+    ├── static
+    └── unit
+
 </pre>
 
-<h3 id="entry-point">Entry Point</h3>
+### Entry Point {#entry-point}
 
-Script that runs migration process is located at
-`magento-root/vendor/magento/data-migration-tool/bin/migrate`
+Script that runs migration process is located at magento-root/bin/magento
 
-
-<h3 id="configuration">Configuration</h3>
+### Configuration {#configuration}
 
 The Schema for configuration file `config.xsd` is placed under `etc/directory`. Default configuration file `config.xml.dist` is created for each version of Magento 1.x. It is placed in separate directories under `etc/`.
 
-Default configuration file can be replaced by custom one using CLI (see <a href="{{ site.gdeurl }}migration/migration-migrate.html">--config <code>&lt;value&gt;</code> parameter</a>).
+Default configuration file can be replaced by custom one using CLI (see <a href="{{page.baseurl}}migration/migration-migrate.html">--config <code>&lt;value&gt;</code> parameter</a>).
 
 Configuration file has the following structure:
 {% highlight xml %}
@@ -162,17 +164,20 @@ Configuration file has the following structure:
 
 * options - list of parameters. Contains both mandatory (map_file, settings_map_file, bulk_size) and optional (custom_option, resource_adapter_class_name, prefix_source, prefix_dest, log_file) parameters
 
-Change prefix option in case Magento was installed with prefix in database tables. It can be set for Magento 1 and Magento 2 databases. Use the “source_prefix” and “dest_prefix” configuration options accordingly.
+Change prefix option in case Magento was installed with prefix in database tables. It can be set for Magento 1 and Magento 2 databases. Use the "source_prefix" and "dest_prefix" configuration options accordingly.
 
 Configuration data is accessible via \Migration\Config class.
 
+## Step internals {#step-internals}
 
-<h2 id="step-internals">Step internals</h2>
 The migration process consists of steps.
+
 Step is a unit that provides functionality required for migration some separated data. Step can consist of one or more stages e.g. integrity check, data, volume check, delta.
 
-By default there are several steps (Map, EAV, URL Rewrites, and so on). You can optionally add your own steps as well.
+By default, there are several steps (Map, EAV, {% glossarytooltip a05c59d3-77b9-47d0-92a1-2cbffe3f8622 %}URL{% endglossarytooltip %} Rewrites, and so on). You can optionally add your own steps as well.
+
 Steps related classes are located in the src/Migration/Step directory.
+
 To execute a Step class, the class must be defined in config.xml file.
 
 {% highlight xml %}
@@ -217,25 +222,25 @@ $this->progress->advance();
 $this->progress->finish();
 {% endhighlight %}
 
-##Stages
+## Stages
 
-###Integrity check
+### Integrity check
 
 Each step has to check that the structure of data source (Magento 1 by default) and the structure of data destination (Magento 2) are compatible. If not - an error will be shown with entities that are not compatible. In case when fields have different datatypes (e.g. the same field has decimal datatype in Magento 1 and integer in Magento 2), a warning message will be shown (except when it was covered in Map file).
 
-###Data Transfer
+### Data Transfer
 
-In case integrity check passed, transferring data is running. If some error appears then rollback will run to revert to previous state of Magneto 2. If a step class implements RollbackInterface then "rollback" method will be executed in case of error.
+In case integrity check passed, transferring data is running. If some error appears then rollback will run to revert to previous state of Magento 2. If a step class implements RollbackInterface then "rollback" method will be executed in case of error.
 
-###Volume check
+### Volume check
 
 After data has been migrated Volume Check provides additional check that all data was transferred correctly.
 
-###Delta delivery
+### Delta delivery
 
 Delta functionality is responsible for delivering the rest of data that was added after main migration.
 
-<h2 id="running-modes">Running modes</h2>
+## Running modes {#running-modes}
 
 The tool should be run in three different modes in particular order:
 
@@ -245,7 +250,7 @@ The tool should be run in three different modes in particular order:
 
 Each mode has its own list of steps to be executed. See config.xml
 
-###Settings migration mode
+### Settings migration mode
 
 Settings migration mode of this tool is used to transfer following entities:
 
@@ -277,15 +282,15 @@ All store configuration keeps its data in core_config_data table in database. se
 
 Under node <code>&lt;key&gt;</code> there are rules that work with 'path' column of core_config_data table. <code>&lt;ignore&gt;</code> rules make the tool not to transfer some setting. Wildcards can be used in this node. All other settings not listed in <code>&lt;ignore&gt;</code> node, will be migrated. If path of some setting is changed in Magento 2, it should be added to //key/rename node, where old path indicates in //key/rename/path node and new path indicates in //key/rename/to node.
 
-Under node <code>&lt;value&gt;</code> there are rules that work with 'value' column of core_config_data table. These rules aim to transform value of settings by handlers (classes that implement Migration\Handler\HandlerInterface) and adapt it for Magento 2
+Under node <code>&lt;value&gt;</code> there are rules that work with 'value' column of core_config_data table. These rules aim to transform value of settings by handlers (classes that implement Migration\Handler\HandlerInterface) and adapt it for Magento 2.
 
-###Data migration mode
+### Data migration mode
 
 In this mode most of the data will be migrated. Before data migration the integrity check stages run for each step. If integrity check passed the Data Migration Tool installs deltalog tables (with prefix m2_cl_*) and corresponding triggers to Magento 1 database. And runs data migration stage of steps. When migration is completed without errors the volume check checks data consistency. It can show a warning message if you migrate live store. Do not worry, delta migration will take care of this incremental data. Next the most valuable migration steps are described. It is Map Step, URL Rewrite Step, EAV Step.
 
-####Map Step
+#### Map Step
 
-Map step is responsible for transferring most of data from Magento 1 to Magento 2. This step reads instructions from map.xml file (located in etc dir). The file describes differences between data structures of source (Magento 1) and destination (Magento 2). In case Magento 1 contains tables or fields that belong to some extension that does not exist in Magento 2, then these entities can be placed here to ignore them by Map Step. Otherwise it will show an error message. 
+Map step is responsible for transferring most of data from Magento 1 to Magento 2. This step reads instructions from map.xml file (located in etc dir). The file describes differences between data structures of source (Magento 1) and destination (Magento 2). In case Magento 1 contains tables or fields that belong to some {% glossarytooltip 55774db9-bf9d-40f3-83db-b10cc5ae3b68 %}extension{% endglossarytooltip %} that does not exist in Magento 2, then these entities can be placed here to ignore them by Map Step. Otherwise it will show an error message.
 
 Map file has the next format:
 
@@ -305,7 +310,7 @@ Map file has the next format:
                 <document key="primary_key">some_dest_document</document>
             </log_changes>
         </document_rules>
- 
+
         <field_rules>
             <move>
                 <field>some_document1.field1</field>
@@ -328,7 +333,7 @@ Map file has the next format:
                 <document>some_document8</document>
             </ignore>
         </document_rules>
- 
+
         <field_rules>
             <transform>
                 <field>some_document5.field3</field>
@@ -355,7 +360,7 @@ Options:
 
 * *move* - sets rule to move specified field from source document to destination document. NOTE: destination document name should be the same with the source document name. If source and destination document names are different - you need to use rename option for document that contains moved field
 
-* *transform* - is a option that allows user to migrate fields according to behavior described in handlers
+* *transform* - is an option that allows user to migrate fields according to behavior described in handlers
 
 * *handler* - describes transformation behavior for fields. To call the handler you need to specify a handler class name in a <handler> tag. Use <param> tag with the parameter name and value data to pass it to handler
 
@@ -367,16 +372,17 @@ Options:
 		<th>Field</th>
 	</tr>
 <tr>
-	<td>ignore 
+	<td>ignore
     	rename</td>
 	<td>ignore
-		move 
+		move
 		transform</td>
 </tr>
 </tbody>
 </table>
 
 **Destination** available operations:
+
 <table>
 <tbody>
 	<tr>
@@ -391,14 +397,14 @@ Options:
 </tbody>
 </table>
 
-####Wildcards
+#### Wildcards
 To ignore documents with similar parts (e.g. document_name_1, document_name_2 e.t.c), you can use wildcard functionality. Just put * symbol instead of repeating part (e.g. document_name_*) and this mask will cover all source or destination documents that meet this mask.
 
-####URL Rewrite Step
+#### URL Rewrite Step
 
 This step is quite complex because there are many different algorithms developed in Magento 1 which are not compatible with Magento 2. For different versions of Magento 1 there can be different algorithms. Thus under Step/UrlRewrite folder there are classes that were developed for some of particular versions of Magento and Migration\Step\UrlRewrite\Version191to2000 is one of them. It can transfer URL Rewrites data from Magento 1.9.1 to Magento 2.
 
-####EAV Step
+#### EAV Step {#eav}
 
 This step transfers all attributes (e.g. product, customer, RMA) from Magento 1 to Magento 2. It uses map-eav.xml file that contains rules similar to the ones in map.xml file for specific cases of processing data.
 
@@ -413,31 +419,27 @@ Some of the tables that are processed in the step:
 * eav_entity_type
 * ...
 
-###Delta migration mode
+### Delta migration mode
 
-After main migration some data could have been added to DB of Magento 1 e.g. by customers on store-front. To track this data, database triggers are setup for tables in the beginning of main migration. If some extension has its own tables that need to be tracked for changing its data - then a developer should:
+After main migration, additional data could have been added to the Magento 1 database (for example, by customers on storefront). To track this data, the Tool sets up the database triggers for tables in the beginning of migration process. For more information, see [Migrate data created by 3rd party extensions]({{page.baseurl}}migration/migration-migrate-delta.html#migrate-delta-external-extensions).
 
-1. add these tables into deltalog.xml file
-2. create its own delta class which extends Migration\App\Step\AbstractDelta
-3. add name of this class to config.xml into delta mode section
+## Data Sources {#data-sources}
 
-<h2 id="data-sources">Data Sources</h2>
-
-To reach to the data sources of Magento 1 and Magento 2 and operate with its data (select, update, insert, delete) there are many classes in Resource folder. Migration\Resource\Source and Migration\Resource\Destination are main classes. All migration steps use it to operate with data. This data is contained in classes like Migration\Resource\Document, Migration\Resource\Record, Migration\Resource\Structure etc. 
+To reach to the data sources of Magento 1 and Magento 2 and operate with its data (select, update, insert, delete) there are many classes in Resource folder. Migration\ResourceModel\Source and Migration\ResourceModel\Destination are main classes. All migration steps use it to operate with data. This data is contained in classes like Migration\ResourceModel\Document, Migration\ResourceModel\Record, Migration\ResourceModel\Structure etc.
 
 Here is a class diagram of these classes:
 
 <p><img src="{{ site.baseurl }}common/images/Migration Tool Data Structure.png" alt="Migration Tool Data Structure"></p>
 
-<h2 id="logging">Logging</h2>
+## Logging {#logging}
 
-In order to implement output of migration process and control all possible levels PSR logger, which is used in Magento, is applied. \Migration\Logger\Logger class was implemented to provide logging functionality. To use the logger you should inject it via constructor dependency injection.
+In order to implement output of migration process and control all possible levels PSR logger, which is used in Magento, is applied. \Migration\Logger\Logger class was implemented to provide logging functionality. To use the logger you should inject it via constructor {% glossarytooltip 2be50595-c5c7-4b9d-911c-3bf2cd3f7beb %}dependency injection{% endglossarytooltip %}.
 
 <pre><code>class SomeClass
 {
     ...
     protected $logger;
- 
+
     public function __construct(\Migration\Logger\Logger $logger)
     {
         $this->logger = $logger;
@@ -457,6 +459,7 @@ $this->logger->warning("Some warning message");
 There is a possibility to customize where log information should be written. You can do that by adding handler to logger using pushHandler() method of the logger. Each handler should implement \Monolog\Handler\HandlerInterface interface. As for now there are two handlers:
 
 * ConsoleHandler: writes messages to console
+
 * FileHandler: writes messages to log file that has been set in "log_file" config option
 
 Also it is possible to implement any additional handler. There is a set of handlers in Magento framework. Example of adding handlers to logger:
@@ -474,42 +477,39 @@ $this->logger->pushProcessor([$this->processor, 'setExtra']);
 // As a second array value you need to pass method that should be executed when processor called
 </code></pre>
 
-There is a possibility to set the level of verbosity. As for now there are 3 levels: ERROR(writes only errors to the log), INFO(only important information is written to the log, default value), DEBUG(everything is written). Verbosity log level can be set for each handler separately by calling setLevel() method. If you want to set verbosity level via command line parameter, you should change 'verbose' option at application launch. 
+There is a possibility to set the level of verbosity. As for now there are 3 levels: ERROR(writes only errors to the log), INFO(only important information is written to the log, default value), DEBUG(everything is written). Verbosity log level can be set for each handler separately by calling setLevel() method. If you want to set verbosity level via command line parameter, you should change 'verbose' option at application launch.
 
 There is a possibility to format log messages via monolog formatter. To make formatter functionality work it needs to be set to specified log handler using setFormatter() method. Currently we have one formatter class (MessageFormatter) that sets certain format (depends on verbosity level) during message handling (via format() method executed from handler).
 
 As for now manipulation with logger, adding handler(s), processor(s) to it and processing verbose mode is performed in process() method of Migration\Logger\Manager class. Mentioned method is called during application start.
 
-<h2 id="extension-points">Extension Points</h2>
+## Extension Points {#extension-points}
 
-####Custom Resource Type of Source
+### Custom Resource Type of Source
 
-By default Data Migration Tool works with MySQL DB of Magento 1 as source of data to transfer it to Magento 2. But source data type can be changed to CSV as an example. There is resource_adapter_class_name option in config.xml that can hold custom class name to resource adapter which can be implemented to work with CSV as an example or any other data type.
+By default Data Migration Tool works with MySQL DB of Magento 1 as source of data to transfer it to Magento 2. But source data type can be changed to {% glossarytooltip 6341499b-ead9-4836-9794-53d95eb48ea5 %}CSV{% endglossarytooltip %} as an example. There is resource_adapter_class_name option in config.xml that can hold custom class name to resource adapter which can be implemented to work with CSV as an example or any other data type.
 
-####Map Step configuration
+### Map Step configuration
 
 In most cases modification of map will be enough.
 
-####Custom Handler
+### Custom Handler
 
 Custom handlers can be used for cases where data in a field should be transformed with more complex algorithm. There are a lot of custom handlers out of the box in src/Migration/Handler/ folder. Custom handlers are used in Settings step and Map step.
 
-####Custom Steps
+### Custom Steps
 
 Data Migration Tool provides possibility to add custom steps to migration procedure (see Step internals).
 
-<h2 id="automatic-tests">Automatic Tests</h2>
+## Automatic Tests {#automatic-tests}
 
 There are 3 types of tests in Data Migration Tool: static, unit and integration tests. They all are located in tests/ directory of the tool and they are located in folders, which are the same as the type of the test (e.g. unit tests are located in tests/unit folder). To launch the test you should have phpunit installed. In such case you should change current folder to the folder of test and launch phpunit. See the example below.
 
 <pre><code>[10:32 AM]-[vagrant@debian-70rc1-x64-vbox4210]-[/var/www/magento2/vendor/magento/migration-tool]-[git master]
 $ cd tests/unit
- 
+
 [10:33 AM]-[vagrant@debian-70rc1-x64-vbox4210]-[/var/www/magento2/vendor/magento/migration-tool/tests/unit]-[git master]
 $ phpunit
 PHPUnit 4.1.0 by Sebastian Bergmann.
 ....
 </code></pre>
-
-
-

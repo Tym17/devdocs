@@ -1,24 +1,30 @@
 ---
 layout: default
 group:  migration
-subgroup: Data migration tool
-title: Data migration tool
-menu_title: Data migration tool
+subgroup: C_DMTool
+title: Data Migration Tool
+menu_title: Data Migration Tool
 menu_node: parent
 menu_order: 3
+version: 2.0
 github_link: migration/migration-tool.md
 redirect_from: /guides/v1.0/migration/migration-tool.html
 ---
 
-  
-<h2>Data Migration Tool</h2>
+## Overview
 
-To assist you with your migration, Magento provides the Data Migration Tool, a command-line interface (CLI) that provides verification, progress tracking, logging, and testing functions. The migration tool operates in three modes to transfer and adapt data from Magento 1 to Magento 2:
+Data Migration Tool is a command-line interface (CLI) used for transferring data from Magento 1 to Magento 2. The Tool verifies consistency between Magento 1 and 2 database structures (tables and fields), tracks the data tranfer progress, creates logs, and runs data verification tests.
 
-* Settings mode: Migrates all possible configuration settings from Magento 1 to Magento 2
+## Modes
 
-* Data mode: Bulk migrates data from your Magento 1 database to your Magento 2 database
+The Tool operates in three modes:
 
-* Delta mode: Incremental "catch-up" migration after the initial bulk data migration
+1. **Settings**: migrates configuration settings
 
-Each mode consists of several steps that perform tasks specific to the mode. (For example, URL rewrite step, EAV step, settings step.) Each step initially checks data integrity in the Magento 1 and Magento 2 databases and, after verification succeeds, performs the transfer, and verifies data again after it's done.
+2. **Data**: bulk migrates main data in the database
+
+3. **Delta**: transfers incremental data updates, added to Magento 1 {% glossarytooltip 1a70d3ac-6bd9-475a-8937-5f80ca785c14 %}storefront{% endglossarytooltip %} and {% glossarytooltip 29ddb393-ca22-4df9-a8d4-0024d75739b1 %}Admin{% endglossarytooltip %} Panel while running previous migration modes
+
+## Steps
+
+Each mode consists of several steps that perform specific steps (for example: {% glossarytooltip a05c59d3-77b9-47d0-92a1-2cbffe3f8622 %}URL{% endglossarytooltip %} rewrite, EAV, settings, etc.). Each step initially checks data integrity between Magento 1 and Magento 2 databases and, after verification succeeds, performs the transfer. Then the Tool runs the data verification tests again.

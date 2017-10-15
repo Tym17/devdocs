@@ -2,57 +2,30 @@
 layout: default
 group: fedg
 subgroup: D_CSS
-title: Styles debugging
+title: Compile LESS with Grunt
 menu_order: 4
-menu_title: Styles debugging
+menu_title: Compile LESS with Grunt
+version: 2.0
 github_link: frontend-dev-guide/css-topics/css_debug.md
 redirect_from: /guides/v1.0/frontend-dev-guide/css-topics/css_debug.html
 ---
 
-<h2>Overview</h2>
+<h2>What's in this topic</h2>
 
 <p>
-The topic describes how the changes you make in stylesheets are applied in the client-side and server-side LESS <a href="{{site.gdeurl}}frontend-dev-guide/css-topics/css-preprocess.html" target="_blank">compilation modes</a>, and suggests the approaches and tools you can use to streamline the process of applying and debugging customizations. </p>
+The topic describes how to install, configure and use <a href="http://gruntjs.com/" target="_blank">Grunt JavaScript task runner</a> for compiling <code>.less</code> files in Magento 2. </p>
+
+## Prerequisites 
+Make sure that you [set]({{page.baseurl}}config-guide/cli/config-cli-subcommands-mode.html) your Magento application to the developer or default [mode]({{page.baseurl}}config-guide/bootstrap/magento-modes.html).
 
 
-<h2 id="css_debug_client">Styles debugging in client-side compilation mode</h2>
-
-Client-side LESS compilation is implemented using the native `less.js` library. The default configuration is set in <code>lib/web/less/config.less.js</code>; you can change it as needed. 
-
-You can find the detailed information about the configuration and other options of the <code>less.js</code> used in a browser at <a href="http://lesscss.org/usage/#using-less-in-the-browser" target="_blank">http://lesscss.org/usage/#using-less-in-the-browser</a>.
-
-In client-side compilation mode, most of the stylesheet customizations display immediately after you reload a page in a browser. 
-
-<span id="css_exception">There are certain types of changes</span>, that require you to clear the <code>pub/static/frontend/&lt;Vendor&gt;/&lt;theme&gt;/&lt;locale&gt;</code> directory and trigger the compilation and <a href="{{site.gdeurl}}architecture/view/static-process.html#publish-static-view-files" target="_blank">publication</a> processes anew.
-
-This is required in the following cases:
-<ul>
-<li>If you change the <a href="{{site.gdeurl}}frontend-dev-guide/css-topics/css-preprocess.html#css_preprocess_terms" target="_blank">root source files</a> that contain the <code>@magento-import</code> directive, or the <code>@import</code> directive where the imported file is specified without extension.</li>
-<li>If you rename, remove, or add a <code>.less</code> file imported with a <code>@magento-import</code> or <code>@import</code> directive but you did not correct the directives accordingly.</li>
-
-</ul>
-
-To clear the <code>pub/static/frontend/&lt;Vendor&gt;/&lt;theme&gt;/&lt;locale&gt;</code> directory, delete the directory in the file system, and reload the store pages in a browser to trigger compilation and publication.
-
-<h2 id="css_debug_server">Styles debugging in server-side compilation mode</h2>
-
-In server-side LESS compilation mode, to have your changes applied, clear <code>pub/static/frontend/&lt;Vendor&gt;/&lt;theme&gt;/&lt;locale&gt;</code> by deleting the directory in the file system, and reload the store pages to trigger compilation and publication. 
-
-<div class="bs-callout bs-callout-info" id="info">
-  <p>You might also need to clear the <code>var/cache</code> and <code>var/view_preprocessing</code> directories.</p>
-</div>
-
-Alternatively, to streamline the process of applying and debugging styles customizations, in server-side compilation mode, you can use the <a href="http://gruntjs.com/" target="_blank">Grunt JavaScript task runner</a>.
-
-The following section describes in details how to install, configure and use Grunt for styles debugging.
-
-<h3 id="grunt_prereq">Installing and configuring Grunt</h3>
+## Installing and configuring Grunt {#grunt_prereq}
 
 Magento has built-in Grunt tasks configured, but there are still several prerequisite steps you need to take to be able to use it:
 
 <ol>
 <li>
-Install <a href="https://github.com/joyent/node/wiki/installing-node.js-via-package-manager)" target="_blank">node.js</a> to any location on your machine.
+Install <a href="https://nodejs.org/en/download/package-manager/" target="_blank">node.js</a> to any location on your machine.
 </li>
 <li>Install Grunt CLI tool globally. To do this, run the following command in a command prompt:<br>
 <pre>
@@ -60,15 +33,7 @@ npm install -g grunt-cli
 </pre>
 </li>
 <li>
-Install Grunt in your Magento directory. To do this, run the following commands in a command prompt:<br>
-<pre>
-cd &lt;your_Magento_instance_directory&gt;
-npm install grunt --save-dev
-</pre>
-</li>
-
-<li>
-Install (or refresh) the <code>node.js</code> project dependency for your Magento instance. To do this, run the following commands in a command prompt:<br>
+Install (or refresh) the <code>node.js</code> project dependency, including Grunt, for your Magento instance. To do this, run the following commands in a command prompt:<br>
 
 <pre>
 cd &lt;your_Magento_instance_directory&gt;
@@ -78,9 +43,10 @@ npm update
 </li>
 
 <li>
-Add your theme to Grunt configuration. To do this, in the <code>dev/tools/grunt/configs/theme.js</code> file, add your theme to <code>module.exports</code> like following:
+Add your {% glossarytooltip d2093e4a-2b71-48a3-99b7-b32af7158019 %}theme{% endglossarytooltip %} to Grunt configuration. To do this, in the <code>dev/tools/grunt/configs/themes.js</code> file, add your theme to <code>module.exports</code> like following:
 <pre>
-module.exports = {
+{% glossarytooltip c1e4242b-1f1a-44c3-9d72-1d5b1435e142 %}module{% endglossarytooltip %}.exports = {
+    ...
     &lt;theme&gt;: {
         area: 'frontend',
         name: '&lt;Vendor&gt;/&lt;theme&gt;',
@@ -89,12 +55,10 @@ module.exports = {
             '&lt;path_to_file1&gt;', //path to root source file
             '&lt;path_to_file2&gt;'
         ],
-    dsl: 'less'
+        dsl: 'less'
+    ...
     },
 </pre>
-
-
-
 
 Where the following notation is used:
 <ul>
@@ -102,10 +66,10 @@ Where the following notation is used:
 <code>&lt;theme&gt;</code>: your theme code, conventionally should correspond to the theme directory name.
 </li>
 <li>
-<code>&lt;language&gt;</code>: specified in the 'code_subtag' format, for example <code>en_US</code>. Only one locale can be specified here. To debug the theme with another locale, create one more theme declaration, having specified another value for <code>language</code>
+<code>&lt;language&gt;</code>: specified in the 'code_subtag' format, for example <code>en_US</code>. Only one {% glossarytooltip 05099dbb-d491-4e33-a065-16035cb2d4d9 %}locale{% endglossarytooltip %} can be specified here. To debug the theme with another locale, create one more theme declaration, having specified another value for <code>language</code>
 </li>
 <li>
-<code>&lt;path_to_file&gt;</code>: path to the root source file, relative to the <code>app/design/frontend/&lt;Vendor&gt;/&lt;theme/&gt;web</code> directory. You need to specify all <a href="{{site.gdeurl}}frontend-dev-guide/css-topics/css-preprocess.html#css_preprocess_terms" target="_blank">root source files of the theme</a>. If your theme <a href="{{site.gdeurl}}frontend-dev-guide/themes/theme-inherit.html" target="_blank">inherits</a> from a certain theme, and does not contain its own root source files, specify the root source files of the parent theme.
+<code>&lt;path_to_file&gt;</code>: path to the root source file, relative to the <code>app/design/frontend/&lt;Vendor&gt;/&lt;theme/&gt;web</code> directory. You need to specify all <a href="{{page.baseurl}}frontend-dev-guide/css-topics/css-preprocess.html#css_preprocess_terms" target="_blank">root source files of the theme</a>. If your theme <a href="{{page.baseurl}}frontend-dev-guide/themes/theme-inherit.html" target="_blank">inherits</a> from a certain theme, and does not contain its own root source files, specify the root source files of the parent theme.
 
 </li> 
 
@@ -118,8 +82,7 @@ Where the following notation is used:
 </ol>
 
 
-
-<h3 id="grunt_commands">Grunt commands</h3>
+## Grunt commands {#grunt_commands}
 
 The following table describes the grunt commands you can use performing different customization tasks. Run all commands from your Magento installation directory.
 
@@ -145,7 +108,7 @@ grunt clean:blank
 </pre>
 </td>
 <td>
-Removes the theme related static files in the <code>pub/static</code> and <code>var</code> directories.
+Removes the theme related {% glossarytooltip 363662cb-73f1-4347-a15e-2d2adabeb0c2 %}static files{% endglossarytooltip %} in the <code>pub/static</code> and <code>var</code> directories.
 </td>
 </tr>
 <tr>
@@ -187,7 +150,7 @@ Tracks the changes in the source files, recompiles <code>.css</code> files, and 
 </tr>
 </table>
 
-<h3>Use cases of tracking changes using Grunt</h3> 
+## Use cases of tracking changes using Grunt {#use_cases}
 
 The following shows which Grunt tasks to use for debugging:
 
@@ -209,3 +172,21 @@ After you customize the content of any <code>.less</code> file, changes are appl
 <li>After you <a href="#css_exception">customize the root source files or move the files included to the root files</a>, run the <code>clean</code> and <code>exec</code> commands, and the browser page reloads automatically.</li>
 
 </ul>
+
+## CSS source maps {#source_maps}
+
+When using Grunt for styles preprocessing, you can enable the CSS source maps displaying in your browser. It will make the theme styles debugging easier. 
+
+For each theme, Magento compliles all theme `.less` files into two CSS files: `styles-m.css` and `styles-l.css`. So when you debug a theme, you browser only sees `styles-m.css` and it might be difficult to define which exactly `.css` or `.less` file requires corrections. For example:
+
+![node declaration autocomplete]({{site.baseurl}}common/images/fdg/no-map.png){:width="610px"}
+
+CSS source maps solve this issue. They help to find the `.less` file, where the style is specified. For example:
+
+![node declaration autocomplete]({{site.baseurl}}common/images/fdg/with-map.png){:width="610px"}
+
+CSS source maps are generated automatically when you compile CSS for your theme using the `grunt less: <theme>` command. To use them, you need to enable source maps displaying in your browser.
+
+The path to the CSS source maps configuration differs, depending on the browser.
+
+In Google Chrome, to enable source maps generation, go to **Inspect** > **Settings** > **Preferences** > **Enable CSS source maps**.   

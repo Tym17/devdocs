@@ -1,15 +1,14 @@
 ---
 layout: default 
 group: install_trouble
-subgroup: Z_Other issues
+subgroup: 20_other
 title: SQLSTATE[HY000] [2002] No such file or directory 
 menu_title: SQLSTATE[HY000] [2002] No such file or directory 
 menu_node: 
-menu_order: 400
-github_link: install-gde/trouble/tshoot_phpini.md
+menu_order: 520
+version: 2.0
+github_link: install-gde/trouble/php/tshoot_phpini.md
 ---
-
-<h2 id="install-trouble-phpini">SQLSTATE[HY000] [2002] No such file or directory</h2>
 
 ### Details
 
@@ -20,7 +19,7 @@ During or after installation, a  message similar to the following displays:
 
 ### Solution
 
-This is commonly caused by a different instance of PHP being used by the PHP command line compared to the web server. In particular, `mysql.sock` might be misconfigured if this is the case.
+This is commonly caused by a different instance of {% glossarytooltip bf703ab1-ca4b-48f9-b2b7-16a81fd46e02 %}PHP{% endglossarytooltip %} being used by the PHP command line compared to the web server. In particular, `mysql.sock` might be misconfigured if this is the case.
 
 To determine whether or not you're using one instance of PHP:
 
@@ -31,7 +30,7 @@ To determine whether or not you're using one instance of PHP:
 	
 	This determines the settings used by the PHP command-line interface (CLI). Note where `php.ini` is located.
 
-3.	If you haven't already done so, set up a <a href="{{ site.gdeurl }}install-gde/prereq/optional.html#install-optional-phpinfo">phpinfo.php</a> on your web server.
+3.	If you haven't already done so, set up a <a href="{{page.baseurl}}install-gde/prereq/optional.html#install-optional-phpinfo">phpinfo.php</a> on your web server.
 4.	Compare the value of **Loaded Configuration File** from `phpinfo.php` with the one from `php -i`. 
 
 	`phpinfo.php` shows the `php.ini` file used by your web server. If it's different from what's in PHP's `php.ini`, you must make *all* PHP settings consistent for both the PHP CLI and the web server.

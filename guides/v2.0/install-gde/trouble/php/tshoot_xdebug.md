@@ -1,18 +1,17 @@
 ---
 layout: default 
 group: install_trouble
-subgroup: Errors during installation
+subgroup: 03_install
 title: During installation, xdebug maximum function nesting level error
 menu_title: During installation, xdebug maximum function nesting level error
 menu_node: 
 menu_order: 500
-github_link: install-gde/trouble/tshoot_xdebug.md
+version: 2.0
+github_link: install-gde/trouble/php/tshoot_xdebug.md
 redirect_from:
   -  /guides/v1.0/install-gde/trouble/tshoot_xdebug.html
   -  /guides/v2.0/install-gde/trouble/tshoot_xdebug.html
 ---
-
-<h2 id="install-trouble-xdebug">During installation, xdebug maximum function nesting level error</h2>
 
 ### Details
 
@@ -22,6 +21,6 @@ During the installation, a  message similar to the following displays:
 
 ### Solution
 
-<p>There is a known issue with <code>xdebug</code> that can affect Magento installations or access to the storefront or Magento Admin after installation.</p>
-<p>For details, see <a href="{{ site.gdeurl }}release-notes/known-issues.html#known-devbeta-xdebug">Known issue with xdebug</a>.
+<p>There is a known issue with <code>xdebug</code> that can affect Magento installations or access to the {% glossarytooltip 1a70d3ac-6bd9-475a-8937-5f80ca785c14 %}storefront{% endglossarytooltip %} or {% glossarytooltip 18b930cf-09cc-47c9-a5e5-905f86c43f81 %}Magento Admin{% endglossarytooltip %} after installation.</p>
+<p>For details, see <a href="{{page.baseurl}}install-gde/trouble/tshoot_install-issues.html#known-devbeta-xdebug">Known issue with xdebug</a>.
 

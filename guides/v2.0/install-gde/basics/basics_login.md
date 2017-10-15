@@ -5,12 +5,15 @@ subgroup: Getting Started
 title: How do I log in to my Magento server using a terminal, command prompt, or SSH?
 menu_title: How do I log in to my Magento server using a terminal, command prompt, or SSH?
 menu_node: 
-menu_order: 3
+menu_order: 105
+level3_menu_node: level3child
+level3_subgroup: basics
+version: 2.0
 github_link: install-gde/basics/basics_login.md
 redirect_from: /guides/v1.0/install-gde/basics/basics_login.html
 ---
 
-<!-- This topic is referred to from Magento 2 code! Don't change the URL without informing engineering! -->
+<!-- This topic is referred to from Magento 2 code! Don't change the {% glossarytooltip a05c59d3-77b9-47d0-92a1-2cbffe3f8622 %}URL{% endglossarytooltip %} without informing engineering! -->
 <!-- Referring file: README.md owned by core -->
 
  
@@ -22,7 +25,8 @@ To complete almost all of the tasks in this guide, you must remotely log in to y
 
 	Windows and Mac OS typically use different terminal applications. 
 	
-	*	Windows: A partial list: <a href="http://www.putty.org/" target="_blank">putty</a>, <a href="https://www.cygwin.com/" target="_blank">Cygwin</a>, <a href="http://apps.microsoft.com/windows/en-us/app/terminal-rt/d62a6b2a-bc53-4078-b688-3223bf310266" target="_blank">Terminal RT</a>
+	*	Windows: A partial list: <a href="http://www.putty.org/" target="_blank">putty</a>, <a href="https://www.cygwin.com/" target="_blank">Cygwin</a>
+	
 	*	Mac OS: You can use the built-in <a href="http://en.wikipedia.org/wiki/Terminal_(OS_X)" target="_blank">Terminal</a> application or any of the following: <a href="http://iterm2.com/" target="_blank">iTerm</a>, or <a href="http://computers.tutsplus.com/tutorials/beyond-terminal-4-os-x-terminal-alternatives--mac-56217" target="_blank">these</a>
 	
 *	A user name and password for the Magento server

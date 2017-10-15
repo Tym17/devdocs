@@ -1,8 +1,7 @@
 ---
-layout: m1x
+layout: m1x_soap
 title: Product Update
 ---
-<p><a href="{{ site.m1xgithuburl }}api/soap/checkout/cartProduct/cart_product.update.html" target="_blank">Edit this page on GitHub <img src="{{ site.baseurl }}common/images/github_icon.png" height="15px"></a></p>
 
 <h2><a name="cart_product.update-MageCheckout"></a>Mage_Checkout</h2>
 
@@ -125,17 +124,17 @@ $sessionId = $proxy-&gt;login('apiUser', 'apiKey');
 $shoppingCartIncrementId = $proxy-&gt;call( $sessionId, 'cart.create', array( 'magento_store' ) );
 $arrProducts = array(
 	array(
-		“product_id” =&gt; “1”,
-		“qty” =&gt; 2
+		"product_id" =&gt; "1",
+		"qty" =&gt; 2
 	),
 	array(
-		“sku” =&gt; “testSKU”,
-		“quantity” =&gt; 4
+		"sku" =&gt; "testSKU",
+		"quantity" =&gt; 4
 	)
 );
 $resultCartProductAdd = $proxy-&gt;call(
 	$sessionId,
-	“cart_product.add”,
+	"cart_product.add",
 	array(
 		$shoppingCartId,
 		$arrProducts
@@ -143,13 +142,13 @@ $resultCartProductAdd = $proxy-&gt;call(
 );
 $arrProducts = array(
 	array(
-		“product_id” =&gt; “1”,
-		“qty” =&gt; 5
+		"product_id" =&gt; "1",
+		"qty" =&gt; 5
 	),
 );
 $resultCartProductUpdate = $proxy-&gt;call(
 	$sessionId,
-	“cart_product.update”,
+	"cart_product.update",
 	array(
 		$shoppingCartId,
 		$arrProducts
