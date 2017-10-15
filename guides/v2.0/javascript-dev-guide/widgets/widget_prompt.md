@@ -1,30 +1,24 @@
 ---
 layout: default
 group: jsdg
-subgroup: Widgets
+subgroup: 3_Widgets
 title: Prompt widget
 menu_order: 12
 menu_title: Prompt widget
+version: 2.0
 github_link: javascript-dev-guide/widgets/widget_prompt.md
 ---
 
 <h2>Overview </h2>
 
 
-The Magento prompt widget implements a modal pop-up window with an input field, and a cancel and a confirmation button. 
+The Magento prompt {% glossarytooltip f0dcf847-ce21-4b88-8b45-83e1cbf08100 %}widget{% endglossarytooltip %} implements a modal pop-up window with an input field, and a cancel and a confirmation button. 
 
-It extends the <a href="{{site.gdeurl}}javascript-dev-guide/widgets/widget_modal.html">Magento modal widget</a>.
+It extends the <a href="{{page.baseurl}}javascript-dev-guide/widgets/widget_modal.html">Magento modal widget</a>.
 
-The prompt widget source is <a href="{{site.baseurl}}app/code/Magento/Ui/view/base/web/js/modal/prompt.js">app/code/Magento/Ui/view/base/web/js/modal/prompt.js</a>
+The prompt widget source is <a href="{{site.mage2000url}}app/code/Magento/Ui/view/base/web/js/modal/prompt.js">&lt;Magento_Ui_module_dir&gt;/view/base/web/js/modal/prompt.js</a>
 
-The widget can be used for implementing prompt windows for both, Admin and storefront. The design patterns for the modal pop-up windows in the Admin are described in the <a href="{{site.gdeurl}}pattern-library/containers/slideouts-modals-overlays/slideouts-modals-overalys.html#modals">Magento Admin Pattern Library, the Slide-out Panels, Modal Windows, and Overlays topic.</a> 
-
-<h3>Contents</h3>
-
-- <a href="#prompt_init">Initialize the prompt widget</a>
-- <a href="#prompt_options">Options</a>
-- <a href="#prompt_events">Events</a>
-- <a href="prompt_key_navigation">Keyboard navigation</a>
+The widget can be used for implementing prompt windows for both, Admin and {% glossarytooltip 1a70d3ac-6bd9-475a-8937-5f80ca785c14 %}storefront{% endglossarytooltip %}. The design patterns for the modal pop-up windows in the Admin are described in the <a href="{{page.baseurl}}pattern-library/containers/slideouts-modals-overlays/slideouts-modals-overalys.html#modals">Magento Admin Pattern Library, the Slide-out Panels, Modal Windows, and Overlays topic.</a> 
 
 <h2 id="prompt_init">Initialize the prompt widget</h2>
 
@@ -63,7 +57,7 @@ require([
 }); 
 {% endhighlight %}
 
-For details about how to initialize a widget in a `.phtml` template, refer to the <a href="{{site.gdeurl}}frontend-dev-guide/javascript/js_init.html" target="_blank">Javascript initialization</a> topic.
+For details about how to initialize a widget in a `.phtml` template, refer to the <a href="{{page.baseurl}}javascript-dev-guide/javascript/js_init.html" target="_blank">Javascript initialization</a> topic.
 
 <h2 id="prompt_options">Options</h2>
 
@@ -136,4 +130,4 @@ The prompt widget implements the following events:
 
 
 <h2 id="prompt_key_navigation">Keyboard navigation</h2>
-The keyboard navigation for the alert windows is similar to the <a href="{{site.gdeurl}}javascript-dev-guide/widgets/widget_modal.html#key_navigation">navigation of the modal widget</a>.
+The keyboard navigation for the alert windows is similar to the <a href="{{page.baseurl}}javascript-dev-guide/widgets/widget_modal.html#key_navigation">navigation of the modal widget</a>.

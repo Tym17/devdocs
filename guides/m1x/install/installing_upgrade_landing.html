@@ -22,7 +22,7 @@
 <img src="{{ site.baseurl }}common/images/m1x/m1xheader.png" width="1024" alt="header" />
 
 <h1>Upgrading to and Verifying Magento Community Edition (CE) and Enterprise Edition (EE), Part 1</h1>
-<p><a href="{{ site.m1xgithuburl }}/install/installing_upgrade_landing.html" target="_blank">Edit this page on GitHub <img src="{{ site.baseurl }}common/images/github_icon.png" height="15px"></a></p>
+<p><a href="{{ site.m1xgithuburl }}guides/m1x/install/installing_upgrade_landing.html" target="_blank">Edit this page on GitHub <img src="{{ site.baseurl }}common/images/github_icon.png" height="15px"></a></p>
 
 
 <div id="content"> 
@@ -89,7 +89,9 @@ If you're currently using an EE version earlier than EE 1.13.0.0, upgrade <em>di
 <li>Back up the system</li>
 <li>Upgrade to CE 1.9 or EE 1.14</li></ol>
 </p>
-<div class="msg-box important"><img src="{{ site.baseurl }}common/images/m1x/icon-note.png" alt="note" align="left" width="40"><span><strong>Note</strong>: Use caution when upgrading from versions older than CE 1.7 or EE 1.12 because core code on which your extensions are based and database schema have likely changed.</div>
+<div class="msg-box important"><img src="{{ site.baseurl }}common/images/m1x/icon-note.png" alt="note" align="left" width="40"><span><strong>Note</strong>: 
+  <ul><li>Use caution when upgrading from versions older than CE 1.7 or EE 1.12 because core code on which your extensions are based and database schema have likely changed.</li>
+    <li>To apply the <a href="https://magento.com/security/patches/supee-8788" target="_blank">security patch (October 2016)</a> as part of your upgrade, see <a href="{{ site.m1xgdeurl }}other/ht_install-patches.html#apply-8788">How to Apply the SUPEE-8788 Patch</a>.</li></ul></div>
 
 <p>To upgrade to CE 1.8, skip the remainder of this article and continue with <a href="{{ site.m1xgdeurl }}install/installing_upgrade_details.html" target="_blank">Upgrading to and Verifying Magento Community Edition 1.8 and Enterprise Edition 1.13&mdash;Part 2</a>.</p>
 <p>To upgrade from EE 1.13.0.2 to EE 1.13.1.0, skip the remainder of this article and continue with <a href="{{ site.m1xgdeurl }}install/installing_upgrade_details.html" target="_blank">Upgrading to and Verifying Magento Community Edition 1.8 and Enterprise Edition 1.13&mdash;Part 2</a>.</p>
@@ -117,7 +119,7 @@ For example, if you have a <code>shoes</code> category with URL key <code>shoes<
 <p>Following is a high-level roadmap to upgrade to EE 1.13.0.2 or later from EE 1.12 or earlier. This upgrade involves tasks not required for other Magento upgrades; these new tasks are indicated in the roadmap.</p>
 <ol><li>Install Magento in a different directory:
 <ul><li><em>Recommended</em>. Set up a new system (that is, another host) on which to install Magento.<br />
-The system should be identical to, if not better than, your current system. The new system must meet the <a href="http://www.magentocommerce.com/system-requirements" target="_blank">Magento system requirements</a>.</li>
+The system should be identical to, if not better than, your current system. The new system must meet the <a href="{{ site.m1xgdeurl }}system-requirements.html" target="_blank">Magento system requirements</a>.</li>
 <li>Install Magento in a new, empty root installation directory on the same server.</li>
 <div class="msg-box important"><img src="{{ site.baseurl }}common/images/m1x/icon-important.png" alt="important" align="left" width="40"><span><strong>Important</strong>: <em>Do not</em> upgrade Magento in the same directory on the same server because post-upgrade errors are likely to occur.</span></div></li></ul>
 </li>
@@ -157,7 +159,7 @@ If not, fix issues, retest, and upgrade again.</li></ol>
 <p>Following is a high-level roadmap to upgrade to EE 1.13.0.2 or later from EE 1.13.0.1. This upgrade involves tasks not required for other Magento upgrades; these new tasks are indicated in the roadmap.</p>
 <ol><li>Install Magento in a different directory:
 <ul><li><em>Recommended</em>. Set up a new system (that is, another host) on which to install Magento.<br />
-The system should be identical to, if not better than, your current system. The new system must meet the <a href="http://www.magentocommerce.com/system-requirements" target="_blank">Magento system requirements</a>.</li>
+The system should be identical to, if not better than, your current system. The new system must meet the <a href="{{ site.m1xgdeurl }}system-requirements.html" target="_blank">Magento system requirements</a>.</li>
 <li>Install Magento in a new, empty root installation directory on the same server.</li>
 <div class="msg-box important"><img src="{{ site.baseurl }}common/images/m1x/icon-important.png" alt="important" align="left" width="40"><span><strong>Important</strong>: <em>Do not</em> upgrade Magento in the same directory on the same server because post-upgrade errors are likely to occur.</span></div></li></ul>
 </li>

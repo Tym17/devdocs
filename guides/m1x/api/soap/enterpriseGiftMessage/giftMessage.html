@@ -1,8 +1,7 @@
 ---
-layout: m1x
+layout: m1x_soap
 title: Enterprise Gift Message
 ---
-<p><a href="{{ site.m1xgithuburl }}api/soap/enterpriseGiftMessage/giftMessage.html" target="_blank">Edit this page on GitHub <img src="{{ site.baseurl }}common/images/github_icon.png" height="15px"></a></p>
 				    
 <h2><a name="MAPI-GiftMessage-Module%3AMageGiftMessage"></a>Module: Mage_GiftMessage</h2>
 
@@ -70,7 +69,7 @@ $giftMessage = array (
   'message' =&gt; 'test'
 );
 
-$giftMessageSetForQuoteResult = $proxy-&gt;call($sessionId,“giftmessage.setForQuote”, array($shoppingCartId, $giftMessage, 'magento_store'));
+$giftMessageSetForQuoteResult = $proxy-&gt;call($sessionId,"giftmessage.setForQuote", array($shoppingCartId, $giftMessage, 'magento_store'));
 print_r( $giftMessageSetForQuoteResult );
 
 
@@ -100,7 +99,7 @@ $giftMessage = array (
 */
 $giftMessageSetForProductResult = $proxy-&gt;call(
   $sessionId,
-  “giftmessage.setForQuoteProduct”,
+  "giftmessage.setForQuoteProduct",
   array(
     $shoppingCartId,
     array(

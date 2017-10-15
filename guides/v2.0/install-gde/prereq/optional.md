@@ -4,17 +4,11 @@ group: install_pre
 subgroup: Prerequisites
 title: Optional software
 menu_title: Optional software
-menu_order: 11
+menu_order: 400
+version: 2.0
 github_link: install-gde/prereq/optional.md
 redirect_from: /guides/v1.0/install-gde/prereq/optional.html
 ---
-
-#### Contents
-
-*	<a href="#install-optional-intro">Magento optional software</a>
-*	<a href="#install-optional-ntp">Installing and Configuring Network Time Protocol (NTP)</a>
-*	<a href="#install-optional-phpinfo">Create phpinfo.php</a>
-*	<a href="#install-optional-phpmyadmin">Install phpmyadmin</a>
 
 <h2 id="install-optional-intro">Magento optional software</h2>
 We strongly recommend you install NTP because otherwise, cron-related tasks might not perform properly. (Server dates could be in the past or future, for example.)
@@ -96,7 +90,13 @@ Selecting pool servers is up to you. If you use NTP pool servers, ntp.org recomm
 	If all else fails, try rebooting the server.
 
 <h2 id="install-optional-phpinfo">Create phpinfo.php</h2>
-<a href="http://php.net/manual/en/function.phpinfo.php" target="_blank"><code>phpinfo.php</code></a> displays a large amount of information about PHP and its extensions. Add the following code anywhere in your web server's docroot:
+<a href="http://php.net/manual/en/function.phpinfo.php" target="_blank"><code>phpinfo.php</code></a> displays a large amount of information about {% glossarytooltip bf703ab1-ca4b-48f9-b2b7-16a81fd46e02 %}PHP{% endglossarytooltip %} and its extensions. 
+
+<div class="bs-callout bs-callout-warning">
+    <p>Use <code>phpinfo.php</code> in a development system <em>only</em>. It can be a security issue in production.</p>
+</div>
+
+Add the following code anywhere in your web server's docroot:
 <pre>&lt;?php
 
 // Show all information, defaults to INFO_ALL
@@ -104,7 +104,7 @@ phpinfo();</pre>
 
 For more information, see the <a href="http://php.net/manual/en/function.phpinfo.php" target="_blank">phpinfo manual page</a>.
 
-To view the results, enter the following URL in your browser's location or address field:
+To view the results, enter the following {% glossarytooltip a05c59d3-77b9-47d0-92a1-2cbffe3f8622 %}URL{% endglossarytooltip %} in your browser's location or address field:
 
 	http://<web server host or IP>/phpinfo.php
 
@@ -123,6 +123,10 @@ If a 404 (Not Found) error displays, check the following:
 For more information about `phpmyadmin`, see the <a href="http://www.phpmyadmin.net/home_page/index.php" target="_blank">phpmyadmin home page</a>.
 
 For more detailed information about installation, see the <a href="http://docs.phpmyadmin.net/en/latest/setup.html#quick-install" target="_blank">phpmyadmin installation documentation</a>.
+
+<div class="bs-callout bs-callout-warning">
+    <p>Use phpmyadmin in a development system <em>only</em>. It can be a security issue in production.</p>
+</div>
 
 <h2 id="install-optional-phpmyadmin-ubuntu">Install phpmyadmin on Ubuntu</h2>
 To install phpmyadmin on Ubuntu:
@@ -189,9 +193,9 @@ To install phpmyadmin on CentOS:
 
 #### Related topics:
 
-*	<a href="{{ site.gdeurl }}install-gde/prereq/apache.html">Apache</a>
-*	<a href="{{ site.gdeurl }}install-gde/prereq/php-ubuntu.html">PHP 5.5 or 5.6&mdash;Ubuntu</a>
-*	<a href="{{ site.gdeurl }}install-gde/prereq/php-centos.html">PHP 5.5 or 5.4&mdash;CentOS</a>
-*	<a href="{{ site.gdeurl }}install-gde/prereq/mysql.html">MySQL</a>
-*	<a href="{{ site.gdeurl }}install-gde/prereq/security.html">Configuring security options</a>
-*	<a href="{{ site.gdeurl }}install-gde/install/pre-install.html">Ways to install the Magento software</a>
+*	<a href="{{page.baseurl}}install-gde/prereq/apache.html">Apache</a>
+*	<a href="{{page.baseurl}}install-gde/prereq/php-ubuntu.html">PHP 5.5, 5.6, or 7.0&mdash;Ubuntu</a>
+*	<a href="{{page.baseurl}}install-gde/prereq/php-centos.html">PHP 5.5, 5.6, or 7.0&mdash;CentOS</a>
+*	<a href="{{page.baseurl}}install-gde/prereq/mysql.html">MySQL</a>
+*	<a href="{{page.baseurl}}install-gde/prereq/security.html">Configuring security options</a>
+*	[How to get the Magento software]({{ page.baseurl }}install-gde/bk-install-guide.html)

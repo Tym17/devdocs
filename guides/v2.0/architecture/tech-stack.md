@@ -5,50 +5,75 @@ subgroup: Architectural Basics
 title: Technology stack
 menu_title: Technology stack
 menu_order: 2
-github_link: extension-dev-guide/tech-stack.md
+version: 2.0
+github_link: architecture/tech-stack.md
 redirect_from: /guides/v1.0/extension-dev-guide/tech-stack.html
 ---
-<h2>Magento technology stack</h2>
 
-Magento’s highly modular structure includes the following open-source technologies:
+## Overview
 
+This page summarizes the technologies we use. For more detailed information, see the System Requirements:
 
-Stack components include:
+*	[Version 2.0.x]({{ site.gdeurl }}install-gde/system-requirements.html)
+*	[Version 2.1.x]({{site.gdeurl21}}install-gde/system-requirements-tech.html)
 
-* PHP (5.5 and 5.6)
+Magento's highly modular structure includes the following open-source technologies.
 
-* Coding standards PSR-0 (autoloading standard), PSR-1 (basic coding standards), and PSR-2 (coding style guide), PSR-3, PSR-4
+### Web servers
 
-* HTML5
+*	Apache
+*	{% glossarytooltip b14ef3d8-51fd-48fe-94df-ed069afb2cdc %}nginx{% endglossarytooltip %}
 
-* CSS3 (LESS CSS pre-processor)
+### PHP
 
-* JQuery (primary JavaScript library)
+*	{% glossarytooltip d85e2d0a-221f-4d03-aa43-0cda9f50809e %}Composer{% endglossarytooltip %} (dependency management package for PHP)
 
-* RequireJS (library that helps load JavaScript resources on demand)
-* Third-party libraries (Zend Framework 1, Zend Framework 2, Symfony)
+### Database
 
-* Apache 2.2, 2.4
+*	MySQL
+*	MySQL Percona
 
-* Nginx 1.7
+### HTTP accelerator
 
+*	Varnish
 
-* MySQL 5.6
-* Composer (dependency management package for PHP) 
+### Cache Storage
 
-Optional stack components include:
+*	Redis
+*	Memcache
 
-* Varnish (caching)
-* Redis (used for session or page caching)
-* Solr (search engine)
+### Search
 
+* Solr (Magento Enterprise Edition only)
+* Elasticsearch (Magento Enterprise Edition version 2.1.x only)
 
-Magento also provides an automated testing suite that includes test scripts for integration, functional areas, and performance. Components include PHPUnit for the unit test framework and Selenium for the functional test framework. 
+### Additional technologies
 
-This framework is included in `Magento/mtf`. For more information, see Magento Test Framework guide.
+*	HTML5
+*	CSS3 (LESS {% glossarytooltip 6c5cb4e9-9197-46f2-ba79-6147d9bfe66d %}CSS{% endglossarytooltip %} pre-processor)
+*	{% glossarytooltip 5bfa8a8e-6f3e-4fed-a43e-62339916f02e %}jQuery{% endglossarytooltip %} (primary {% glossarytooltip 312b4baf-15f7-4968-944e-c814d53de218 %}JavaScript{% endglossarytooltip %} library)
+*	RequireJS (library that helps load JavaScript resources on demand)
+*	Knockout.js (simplifies JavaScript UIs with the Model-View-View Model pattern)
+*	Third-party libraries (Zend Framework 1, Zend Framework 2, Symfony)
+*	Coding standards PSR-0 (autoloading standard), PSR-1 (basic coding standards), and PSR-2 (coding style guide), PSR-3, PSR-4
 
-<h2>Related topics</h2>
-<a href="{{ site.gdeurl }}architecture/stack-basics.html"> Stack basics</a>
+### Optional stack components
 
+*	Varnish (caching)
+*	Redis (used for page caching)
+*	Solr (search engine)
+*	Elasticsearch (search engine)
 
-<a href="{{ site.gdeurl }}architecture/archi_perspectives/ABasics_intro.html">Architectural basics</a>
+Magento is *compatible with but not supported* for:
+
+*	HHVM 3.9 {% glossarytooltip bf703ab1-ca4b-48f9-b2b7-16a81fd46e02 %}PHP{% endglossarytooltip %} interpreter
+
+### Automated testing
+
+Magento also provides automated testing suites that include unit, integration, functional and performance test scripts, as well as JavaScript tests and tools for static code analysis. Components include PHPUnit for the unit test framework and Selenium for the functional test framework.
+
+This framework is located in the `dev/tests` directory. The functional testing framework `mtf` can be found in a [separate repository](https://github.com/magento/mtf){:target="_blank"}.
+For more information, see the [Functional Testing Framework]({{page.baseurl}}mtf/mtf_introduction.html) guide.
+
+## Related topics
+<a href="{{page.baseurl}}architecture/archi_perspectives/ABasics_intro.html">Architectural basics</a>

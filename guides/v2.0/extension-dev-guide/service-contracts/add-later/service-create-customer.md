@@ -19,7 +19,7 @@ Before you think about writing your own service, you should look at an existing 
 
 *	Interfaces
 
-	Clients interact with services using methods on their interfaces, as discussed in [Service contracts](what-is-svc.html). Customer service interfaces have more than 20 public methods, including public function `createCustomer()` in <a href="{{ site.mage2000url }}app/code/Magento/Customer/Service/V1/CustomerAccountServiceInterface.php" target="_blank">CustomerAccountServiceInterface</a>, which creates a customer record.
+	Clients interact with services using methods on their interfaces, as discussed in [Service contracts]({{page.baseurl}}service-contracts.html). Customer service interfaces have more than 20 public methods, including public function `createCustomer()` in <a href="{{ site.mage2000url }}app/code/Magento/Customer/Service/V1/CustomerAccountServiceInterface.php" target="_blank">CustomerAccountServiceInterface</a>, which creates a customer record.
 
 *	Service data objects
 
@@ -51,7 +51,7 @@ Create a customer record as follows:
 
 	<p>Dependency injection passes (injects) dependencies to an object instead of the object pulling the dependencies from the environment. In other words, instead of objects configuring themselves, the objects are configured by an external entity. For more information, see <a href="https://wiki.magento.com/display/MAGE2DOC/Using+Dependency+Injection" target="_blank">Using Dependency Injection</a>.</p>
 
-<p>Constructor dependency injection uses a constructor to declare the dependencies. In dependencies in the preceding example are named:</p>
+<p>Constructor {% glossarytooltip 2be50595-c5c7-4b9d-911c-3bf2cd3f7beb %}dependency injection{% endglossarytooltip %} uses a constructor to declare the dependencies. In dependencies in the preceding example are named:</p>
 
 <ul><li><tt>$customerAccountService</tt>, a dependency on <a href="{{ site.mage2000url }}app/code/Magento/Customer/Service/V1/CustomerAccountServiceInterface.php" target="_blank">CustomerAccountServiceInterface</a>.</li>
 	<li><tt>$customerBuilder</tt>, a dependency on the <a href="{{ site.mage2000url }}app/code/Magento/Customer/Service/V1/Data/customerBuilder.php" target="_blank">customerBuilder</a> service data object builder.</li>
@@ -75,4 +75,4 @@ The preceding section showed how to:
 
 #### Related topics
 
-*	<a href="{{ site.gdeurl }}get-started/gs-web-api-request.html">Step 2. Construct a request</a>
+*	<a href="{{page.baseurl}}get-started/gs-web-api-request.html">Step 2. Construct a request</a>

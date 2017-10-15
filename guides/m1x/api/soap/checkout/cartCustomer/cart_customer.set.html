@@ -1,8 +1,7 @@
 ---
-layout: m1x
+layout: m1x_soap
 title: Customer Set
 ---
-<p><a href="{{ site.m1xgithuburl }}api/soap/checkout/cartCustomer/cart_customer.set.html" target="_blank">Edit this page on GitHub <img src="{{ site.baseurl }}common/images/github_icon.png" height="15px"></a></p>
 
 <h2><a name="cart_customer.set-MageCheckout"></a>Mage_Checkout</h2>
 
@@ -143,12 +142,12 @@ $sessionId = $proxy-&gt;login('apiUser', 'apiKey');
 
 $shoppingCartId = $proxy-&gt;call( $sessionId, 'cart.create', array( 'magento_store' ) );
 $customerAsGuest = array(
-	“firstname” =&gt; “testFirstname”,
-	“lastname” =&gt; “testLastName”,
-	“email” =&gt; “testEmail”,
-	“website_id” =&gt; “0”,
-	“store_id” =&gt; “0”,
-	“mode” =&gt; “guest”
+	"firstname" =&gt; "testFirstname",
+	"lastname" =&gt; "testLastName",
+	"email" =&gt; "testEmail",
+	"website_id" =&gt; "0",
+	"store_id" =&gt; "0",
+	"mode" =&gt; "guest"
 );
 $resultCustomerSet = $proxy-&gt;call($sessionId, 'cart_customer.set', array( $shoppingCartId, $customerAsGuest) );</pre>
 		</div>

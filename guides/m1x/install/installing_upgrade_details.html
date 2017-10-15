@@ -19,7 +19,7 @@
 <img src="{{ site.baseurl }}common/images/m1x/m1xheader.png" width="1024" alt="header" />
 
 <h1>Upgrading to and Verifying Magento Community Edition and Enterprise Edition&mdash;Part 2</h1>
-<p><a href="{{ site.m1xgithuburl }}/install/installing_upgrade_details.html" target="_blank">Edit this page on GitHub <img src="{{ site.baseurl }}common/images/github_icon.png" height="15px"></a></p>
+<p><a href="{{ site.m1xgithuburl }}guides/m1x/install/installing_upgrade_details.html" target="_blank">Edit this page on GitHub <img src="{{ site.baseurl }}common/images/github_icon.png" height="15px"></a></p>
 
  
 <div class="toc"> <h4 class="toc">Table of Contents</h4> 
@@ -59,7 +59,7 @@
 <ol><li>Get the Magento installation archive as discussed in <a href="{{ site.m1xgdeurl }}install/installing.html#get" target="_blank">Getting Magento CE or EE</a>.</li>
 <li>Install Magento in a different directory:
 <ul><li><em>Recommended</em>. Set up a new system (that is, another host) on which to install Magento.<br />
-The system should be identical to, if not better than, your current system. The new system must meet the <a href="http://www.magentocommerce.com/system-requirements" target="_blank">Magento system requirements</a>.</li>
+The system should be identical to, if not better than, your current system. The new system must meet the <a href="{{ site.m1xgdeurl }}system-requirements.html" target="_blank">Magento system requirements</a>.</li>
 <li>Install Magento in a new, empty root installation directory on the same server.</li>
 <div class="msg-box important"><img src="{{ site.baseurl }}common/images/m1x/icon-important.png" alt="important" align="left" width="40"><span><strong>Important</strong>: <em>Do not</em> upgrade Magento in the same directory on the same server because post-upgrade errors are likely to occur.</span></div></li></ul>
 </li>
@@ -428,6 +428,7 @@ chown -R myuser:www-data magento</code></li></ol> -->
 <ol><li><a href="#upgrade-manual-scripts">Running the Upgrade Scripts and Fixing Exceptions</a></li>
 <li><a href="#upgrade-manual-post-upgrade-11302">Running the URL Redirect Script <em>(EE 1.12.x and earlier only)</em></a></li>
 <li><a href="#upgrade-manual-post-upgrade-11300">Post-Upgrade Tasks <em>(EE 1.13.0.1 Only)</em></a></li> 
+<li>To apply the <a href="https://magento.com/security/patches/supee-8788" target="_blank">security patch</a> released in October, 2016, see <a href="http://devdocs.magento.com/guides/m1x/other/ht_install-patches.html#apply-8788" target="_blank">How to Apply the SUPEE-8788 Patch</a>.</li>
 <li><a href="#upgrade-manual-cron">Setting Up the Magento Cron Job</a></li>
 <li><a href="#upgrade-manual-var">Clearing Magento var/ Subdirectories</a></li>
 <li><a href="#upgrade-manual-index">Verifying the Status of Indexers</a></li>

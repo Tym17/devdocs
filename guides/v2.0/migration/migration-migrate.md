@@ -1,58 +1,68 @@
 ---
 layout: default
 group:  migration
-subgroup: Migrate using the data migration tool
-title: Migrate using the data migration tool
-menu_title: Migrate using data migration tool
+subgroup: D_Migrate using the data migration tool
+title: Migrate using Data Migration Tool
+menu_title: Migrate using Data Migration Tool
 menu_node: parent
 menu_order: 4
+version: 2.0
 github_link: migration/migration-migrate.md
 redirect_from: /guides/v1.0/migration/migration-migrate.html
 ---
 
-  
-<h2 id="migration-command">Migrating settings, data, and changes</h2>
+## General rules for successful migration {#migration-command-gen}
 
-###General rules for successful migration
+Before you start migration, stop all Magento 1 cron jobs.
 
-During the time you're migrating:
+During the migration process, **do not:**
 
-*	Do not make any changes in the Magento 1 Admin except for order management (shipping, creating invoice, credit memos etc.)
-*	Stop all Magento 1 cron jobs
-*	Do not alter any code
-*	Do not make changes in the Magento 2 Admin and storefront
+1. Make any changes in the Magento 1 {% glossarytooltip 29ddb393-ca22-4df9-a8d4-0024d75739b1 %}Admin{% endglossarytooltip %} except for order management (shipping, creating invoice, credit memos, etc.)
 
-All operations in Magento 1 storefront are allowed at this time.
+2. Alter any code
 
-###Run Data Migration Tool
+3. Make changes in the Magento 2 Admin and {% glossarytooltip 1a70d3ac-6bd9-475a-8937-5f80ca785c14 %}storefront{% endglossarytooltip %}
 
-Run the Data Migration Tool from `<your Magento 2 install dir>/vendor/magento/data-migration-tool/bin`
+<div class="bs-callout bs-callout-tip">
+  <p>All operations in Magento 1 storefront are allowed at this time.</p>
+</div>
 
-Command syntax:
+## Run Data Migration Tool {#migration-command-run}
+This section shows how to run the Data Migration Tool to migrate settings, data, or incremental changes.
 
-	php migrate <mode> --config=path/to/config.xml [options]
+### First steps {#migration-command-run-first}
 
-where `<mode>` can be:
+{% include install/first-steps-cli.html %}
 
-*	`data` to migrate database data
-*	`delta` to migrate data that is added to the database since you last ran the tool with the `data` option
-*	`settings` to migrate Magento Admin settings
+In addition to the command arguments mentioned here, see [Common arguments]({{page.baseurl}}install-gde/install/cli/install-cli-subcommands.html#instgde-cli-subcommands-common)
 
-where `[options]` can be:
+### Command syntax {#migration-command-run-syntax}
 
-*	`--reset` to start the migration from the beginning
-*	`--config <value>` path to `config.xml`
-*	`--verbose <level>` DEBUG, INFO, NONE (default is INFO)
-*	`--help` Displays help for the command
+Below is a typical command example:
+
+{% highlight bash %}
+bin/magento migrate:<mode> [-r|--reset] {<path to config.xml>}
+{% endhighlight bash %}
+
+where:
+
+1. `<mode>` may be: <a href="{{page.baseurl}}migration/migration-migrate-settings.html">`settings`</a>, <a href="{{page.baseurl}}migration/migration-migrate-data.html">`data`</a>, or <a href="{{page.baseurl}}migration/migration-migrate-delta.html">`delta`</a>
+
+2. `[-r|--reset]` is an optional argument that starts migration from the beginning. You can use this argument for testing migration.
+
+3. `{<path to config.xml>}` is the absolute file system path to `config.xml`; this argument is required.
 
 <div class="bs-callout bs-callout-info" id="info">
 <span class="glyphicon-class">
-  <p>Logs are written to the <code>&lt;your Magento install dir>/vendor/magento/migration-tool/var</code></p></span>
+  <p>Logs are written to the <code>&lt;your Magento install dir>/var/</code> directory.</p></span>
 </div>
 
-The following sections should be performed in a specific order:
+## Migration order {#migration_order}
 
-1.	<a href="{{ site.gdeurl }}migration/migration-migrate-settings.html">Migrate settings</a>
-3.	<a href="{{ site.gdeurl }}migration/migration-migrate-data.html">Migrate data</a>
-4.	<a href="{{ site.gdeurl }}migration/migration-migrate-delta.html">Migrate changes</a>
+When we created the Data Migration Tool, we assumed the following data transfer sequence:
 
+1.	<a href="{{page.baseurl}}migration/migration-migrate-settings.html">Settings</a>
+2.	<a href="{{page.baseurl}}migration/migration-migrate-data.html">Data</a>
+3.	<a href="{{page.baseurl}}migration/migration-migrate-delta.html">Changes</a>
+
+That's why we strongly recommend to keep this order to migrate quickly and with no issues.

@@ -1,21 +1,21 @@
 ---
 layout: default
 group: coding-standards
-subgroup: Coding standards
+subgroup: 01_Coding standards
 title: LESS coding standard
+landing-page: Coding standards
 menu_title: LESS coding standard
-menu_order: 7
+menu_order: 8
+version: 2.0
 github_link: coding-standards/code-standard-less.md
 ---
 
-This standard defines Magento internal requirements for code formatting and style for teams that develop LESS and CSS code.
+This standard defines Magento internal requirements for code formatting and style for teams that develop LESS and {% glossarytooltip 6c5cb4e9-9197-46f2-ba79-6147d9bfe66d %}CSS{% endglossarytooltip %} code.
 
-Some parts of Magento code might not comply with this coding standard.
+Some parts of Magento code might not comply with this coding standard yet, but we are working to gradually improve this.
 
 This coding standard is optional for third-party Magento developers.
 
-* TOC
-{:toc}
 
 ## General rules
 
@@ -132,7 +132,7 @@ Start each property declaration in a new line.
 
 #### Properties colon indents
 
-Do not add spaces before or after the colon that separates property names from values.
+Add space after but not before the colon that separates property names from values.
 
 **Correct**:
 
@@ -169,7 +169,7 @@ Add a blank line after a selector.
         .nav {
             background-color: @nav__background-color;
         }
-    
+
         .bar {
             background-color: @bar__background-color;
         }
@@ -258,7 +258,7 @@ First, second and third level comments should have two spaces after "//". Inline
 
 #### Types
 
-Magento supports the two most recent versions of all major browsers. Internet Explorer is supported from version 9 and later. 
+Magento supports the two most recent versions of all major browsers. Internet Explorer is supported from version 9 and later.
 
 You can use almost all CSS3 selectors: descendants, attributes, pseudo classes, structural, pseudo elements, and so on.
 
@@ -317,6 +317,8 @@ Class names should be lowercase, start with a letter (except helper classes), wo
 
 Helper class names should be lowercase and start with underscore ("_").
 
+Some parts of Magento code might not comply with this standard yet. You might still find helper names with no underscores. We are working to gradually remove the inconsistency.
+
 **Example**:
 
     ._active {
@@ -351,7 +353,7 @@ Try to convey what class is about while being as brief as possible.
 #### Meaning
 
 
-Use meaningful, specific class names that reflect the purpose of the element. Class names should not be presentational or cryptic. 
+Use meaningful, specific class names that reflect the purpose of the element. Class names should not be presentational or cryptic.
 
 
 **Correct**: specific
@@ -383,6 +385,7 @@ Use meaningful, specific class names that reflect the purpose of the element. Cl
 
 
 ### Selectors naming
+
 #### Type selectors
 
 Avoid qualifying class names with type selectors.
@@ -458,10 +461,10 @@ Exceptions are pseudo elements and states.
         }
         .nav-list {
             ...
+            .nav-list-item {
+                ...
+            }
         }
-        .nav-list-item {
-            ...
-         }
     }
 
 **Incorrect**:
@@ -579,16 +582,16 @@ Omit leading "0"s in values, use dot instead.
 
 #### Local variables
 
-If variables are local and used only in a module scope, they should be located in the module file, in the beginning of the general comment.
+If variables are local and used only in a {% glossarytooltip c1e4242b-1f1a-44c3-9d72-1d5b1435e142 %}module{% endglossarytooltip %} scope, they should be located in the module file, in the beginning of the general comment.
 
 **Example** `_module.less`:
 
     ...
-    
+
     //
     //  Variables
     //  _____________________________________________
-    
+
         //  Colors
     @btn__color: @color-brownie;
     @btn-primary__color: @color-white;
@@ -611,7 +614,7 @@ General model is the following:
 
     @property-name
 
-** Examples **:
+**Examples**:
 
     @primary__color: @color-phoenix;
     @indent__base: 2rem;
@@ -627,38 +630,38 @@ Component name must meaningful. It can contain the `primary`, `secondary`, `tert
 
 `base` is a modifier.
 
-** Examples **:
+**Examples**:
 
 
     @color-orange: '';
-    
+
     @link__hover__color: '';
-    
+
     @nav-element__background-color: '';
-    
+
     @secondary__color: '';
-    
+
     @side-nav__indent__s: '';
-    
+
     @side-nav-el__background-color: '';
-    
+
     @side-nav-el__active__background-color: '';
-    
+
     @side-nav-el__active-focus__background-color: '';
-    
+
     @side-nav-el__active-focus__font-size__xl: '';
-    
+
     @text__color__base: '';
 
 ## Mixins
 
 ### Location
 
-Theme mixins (except extends) should be located in the `source/utilities` directory.
+{% glossarytooltip d2093e4a-2b71-48a3-99b7-b32af7158019 %}Theme{% endglossarytooltip %} mixins (except extends) should be located in the `source/utilities` directory.
 
 ### Naming
 
-For mixin naming apply the class naming rules. 
+For {% glossarytooltip 1a305bdb-9be8-44aa-adad-98758821d6a7 %}mixin{% endglossarytooltip %} naming apply the class naming rules.
 
 For mixins grouping use the double underscore "__" prefix.
 
@@ -667,7 +670,7 @@ For mixins grouping use the double underscore "__" prefix.
     .extend__clearfix (...) {
         ...
     }
-    
+
     .vendor-prefix__flex-direction (...) {
         ...
     }
@@ -676,9 +679,33 @@ For mixins grouping use the double underscore "__" prefix.
 
 ### Location
 
-Local extends used only in one file, should be specified in this file. 
+Local extends used only in one file, should be specified in this file.
 Extends that are used in several files should be specified in the theme's `source/_extend.less` file.
 
 ### Naming
 
 Extend names should start with the `.abs-` prefix.
+
+## `@import` directive
+
+Always add the file {% glossarytooltip 55774db9-bf9d-40f3-83db-b10cc5ae3b68 %}extension{% endglossarytooltip %} of the imported resource.
+
+**Correct**:
+
+    @import 'source/lib/_lib.less';
+    @import (css) 'styles.css';
+
+**Incorrect**:
+
+    @import 'source/lib/_lib';
+    @import (css) 'styles';
+
+Use single quotes.
+
+**Correct**:
+
+    @import 'source/lib/_lib.less';
+
+**Incorrect**:
+
+    @import "source/lib/_lib.less";

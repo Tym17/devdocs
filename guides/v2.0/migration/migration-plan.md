@@ -1,73 +1,124 @@
 ---
 layout: default
 group:  migration
-subgroup: Creating a migration plan
+subgroup: B_Creating a migration plan
 title: Creating a migration plan
 menu_title: Creating a migration plan
 menu_node: parent
 menu_order: 2
+version: 2.0
 github_link: migration/migration-plan.md
 redirect_from: /guides/v1.0/migration/migration-plan.html
 ---
 
-  
-<h2>Creating a migration plan</h2>
+To migrate successfully and avoid issues, you need to thourougly plan and test your migration. We hope the guidelines below will prove helpful.
 
-To have a successful migration, you need to plan it and test it thoroughly. Use the following guidelines to get started.
+## Before you start: Consider upgrade
 
-<h4>Step 1: Review your current site</h4>
+Migration is a perfect moment to make serious changes and get your site ready for the next level of growth. Consider whether your new site needs to be designed with more hardware or a more advanced topology with better caching tiers, etc.
+
+## Step 1: Review extensions on your current site
 
 * What extensions have you installed?
-* Have you identified if you need all these extensions in your new site?  (There might be old ones you can safely drop.)
-* Have you determined if Magento 2 versions your extensions exist?  (Check with your extension providers to see if they have been ported yet.)
+
+* Have you identified if you need all these extensions on your new site?  (There might be old ones you can safely remove.)
+
+* Have you determined if Magento 2 versions of your extensions exist?  (Visit [Magento Marketplace] to find the latest versions or contact your extension provider.)
+
 * What database assets from your extensions do you want to migrate?
 
-<h4>Step 2: Capacity planning</h4>
+## Step 2: Build and prepare Magento 2 store for migration
 
-Consider whether the new site needs to be designed with more hardware or a more advanced topology with better caching tiers and so on. It’s a good time to make more serious changes to get your site ready for your next level of growth.
+* Set up a Magento 2 hardware system using topology and design that at least matches your existing Magento 1 system
 
-<h4>Step 3: Build and test Magento 2</h4>
+* Install Magento 2.x (with all modules of this release) and the Data Migration Tool on a system that meets the [Magento system requirements]
 
-To prepare for the migration, make sure you do all of the following:
+* Make your custom adjustments to the Data Migration Tool code in case you do not need to migrate some data (like CMS Pages, Sales Rules, etc.) or want to convert your Magento customization during migration. Read the Data Migration Tool's [Technical Specification] to better understand how migration works from inside
 
-* Set up a Magento 2.0 system using a topology and design that at least matches your existing Magento 1 system
-* To provide redundancy in the event of unexpected issues, we advise you to replicate your Magento 1.x database and use this Magento 1.x data for your migration
-* Install Magento 2.0 on a system that meets our system requirements
+## Step 3: Dry run
 
-<h4>Step 4: Start your migration</h4>
+Before you start migration on the production environment, it would be best to go through all the migration steps on your testing environment.
 
-<ol>
-  <li>Make sure that the Data Migration Tool has a network access to connect to Magento 1 and Magento 2 databases. Open ports in your firewall.</li>
-  <li>Stop all activity in the Magento 1.x Admin Panel (except for order management, such as shipping, creating invoice, credit memos etc.)</li>
-<pre>NOTE: Activity cannot resume until your Magento 2 store goes live.</pre>
-  <li>Stop all Magento 1.x cron jobs.</li> 
-  <li>Use the migration tool to migrate settings and websites.</li>
-  <li>Copy your Magento 1.x media files to Magento 2.0. (You must copy these manually from  from magento1-root/media to magento2-root/pub/media directory)</li> 
-  <li>Use Data Migration Tool to bulk copy your data from Magento 1 database to Magento 2 database. If some of your extensions have data you want to migrate, you might need to install these extensions adapted for Magento 2. In case the extensions have a different structure in Magento 2 database, use the mapping files provided with the Data Migration Tool.</li>
-  <li>Reindex all Magento 2.0 indexers. For details, see the <a href="{{ site.gdeurl }}config-guide/cli/config-cli-subcommands-index.html">Configuration Guide</a>.</li>
-  <li>Thoroughly test your Magento 2.0 site.</li>
-</ol>
+In such migration testing, follow these steps:
 
-<h4>Step 5:  Incremental updates</h4>
+* Copy your Magento 1 store to a staging server
 
-Now that you’ve migrated your data, you must incrementally capture data updates that are added in Magento 1 store (such as new orders, reviews and changes in customer profiles) and migrate it to Magento 2 store.
+* Fully migrate the replicated Magento 1 store to Magento 2
 
-* Start the incremental migration; updates run continually. 
-You can stop the updates at any time by pressing CTRL+C
-* Test your Magento 2 site during this time so you can catch any issues as soon as possible.
-In case you find any issues, press Control+C to stop incremental migration and start it again after issues are resolved
+* Thoroughly test your new store
 
-<h4>Step 6: Go live</h4>
+## Step 4: Start your migration
+
+1. Make sure that the Data Migration Tool has a network access to connect to Magento 1 and Magento 2 databases. Open the corresponding ports in your firewall.
+
+2. Stop all activities in the Magento 1.x Admin Panel, except for order management, such as shipping, creating invoice, credit memos, etc (the list of allowed activities can be extended by adjusting settings of the Delta mode in the Data Migration Tool). **Note:** such activities must not be resumed until your Magento 2 store goes live.
+
+3. We recommend to stop all Magento 1.x cron jobs.
+
+   Still, if some jobs are required to run during migration, make sure they do not create new database entities or change the existing ones in the way that such entities cannot be processed by the Delta mode.
+
+   For example: the `enterprise_salesarchive_archive_orders` cron job moves old orders to archive. Running this job during migration is safe because the Delta mode takes the job into account and thus properly processes the archived orders.
+
+{:start="4"}
+4. Use the Data Migration Tool to migrate settings and websites.
+
+5. Copy your Magento 1.x media files to Magento 2.x.
+
+   You must copy these files manually from the `magento1-root/media` directory to `magento2-root/pub/media`.
+
+{:start="6"}
+6. Use the Data Migration Tool to bulk copy your data from Magento 1 database to Magento 2 database.
+
+   If some of your extensions have data you want to migrate, you might need to install these extensions adapted for Magento 2. In case the extensions have a different structure in Magento 2 database, use the mapping files provided with the Data Migration Tool.
+
+{:start="7"}
+7. Reindex all Magento 2.x indexers. For details, see the [Configuration guide].
+
+## Step 5: Make changes to the migrated data (if needed)
+
+Sometimes you may want to have your Magento 2 store with different catalog structure, sales rules, CMS pages, etc. after migration.
+
+You need to be carfull because after such changes the next migration step (Incremental data update) might not work properly.
+
+For example, a product deleted from Magento 2: the one that has been bought on your live Magento 1 store and which is not available anymore in your Magento 2 store. Transferring data about such purchase might cause an error while running the Data Migration Tool in Delta mode.
+
+## Step 6: Update incremental data
+
+After migrating data, you must incrementally capture data updates that have been added in the Magento 1 store (such as new orders, reviews, and changes in customer profiles) and transfer these updates to the Magento 2 store using the Delta mode.
+
+* Start the incremental migration; updates will run continually.
+You can stop transferring updates at any time by pressing `Ctrl+C`
+
+* Test your Magento 2 site during this time to catch any issues as soon as possible.
+In case of such issues, press `Ctrl+C` to stop incremental migration and start it again after issues are resolved
+
+<div class="bs-callout bs-callout-info" id="info">
+  <p>Volume check warnings may appear in case you conduct testing of your Magento 2 site and run migration process at the same time. It happens because in Magento 2 you create entities that do not exist in Magento 1 instance.</p>
+</div>
+
+## Step 7: Go live
 
 Now that your Magento 2 site is up-to-date with Magento 1 and is functioning normally, do the following to cut over to the new site:
 
 1. Put your Magento 1 system in maintenance mode (DOWNTIME STARTS).
+
 2. Press Control+C in the migration tool command window to stop incremental updates.
+
 3. Start your Magento 2 cron jobs.
-4. In your Magento 2 system, reindex the stock indexer. For more information, see the `<TBD>`.
-5. Using a tool of your choice, hit pages in your Magento 2 system to cache pages in advance of customers using your storefront.
+
+4. In your Magento 2 system, reindex the stock indexer. For more information, see the [Configuration guide].
+
+5. Using a tool of your choice, hit pages in your Magento 2 system to cache pages in advance of customers who use your storefront.
+
 6. Perform any final verification of your Magento 2 site.
-7. Change DNS, load balancers, and so on to point to new production hardware (DOWNTIME ENDS) 
-8. Magento 2 store is ready to use. You and Your customers can resume all activities.
+
+7. Change DNS, load balancers, and so on to point to new production hardware (DOWNTIME ENDS).
+
+8. Magento 2 store is now ready to use. You and your customers can resume all activities.
 
 
+<!-- LINK ADDRESSES -->
+[Magento system requirements]: {{page.baseurl}}install-gde/system-requirements-tech.html
+[Magento Marketplace]: https://marketplace.magento.com
+[Technical Specification]: {{page.baseurl}}migration/migration-tool-internal-spec.html
+[Configuration guide]: {{page.baseurl}}config-guide/cli/config-cli-subcommands-index.html

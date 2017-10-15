@@ -1,8 +1,7 @@
 ---
-layout: m1x
+layout: m1x_soap
 title: Cart Order
 ---
-<p><a href="{{ site.m1xgithuburl }}api/soap/checkout/cart/cart.order.html" target="_blank">Edit this page on GitHub <img src="{{ site.baseurl }}common/images/github_icon.png" height="15px"></a></p>
 
 <h2><a name="cart.order-MageCheckout"></a>Mage_Checkout</h2>
 
@@ -42,12 +41,12 @@ Before placing the order, you need to add the customer, customer address, shippi
 </tr>
 <tr>
 <td> string </td>
-<td> store </td>
+<td> storeId </td>
 <td> Store view ID or code (optional) </td>
 </tr>
 <tr>
 <td> ArrayOfString </td>
-<td> agreements <br class="atl-forced-newline" /> </td>
+<td> licenses <br class="atl-forced-newline" /> </td>
 <td> Website license ID (optional) </td>
 </tr>
 </tbody></table>
@@ -84,7 +83,7 @@ $shoppingCartIncrementId = $proxy-&gt;call( $sessionId, 'cart.create', array( 'm
 
 $resultOrderCreation = $proxy-&gt;call(
   $sessionId,
-  “cart.order”,
+  "cart.order",
   array(
     $shoppingCartId
   )
